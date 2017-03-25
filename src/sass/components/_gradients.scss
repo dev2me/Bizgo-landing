@@ -1,0 +1,5 @@
+.gradient {
+    background-color: rgba(13,90,171,1);
+    background: filter-gradient(#0d5aab, #27c0e6, horizontal);
+    background: background-image(linear-gradient(left, rgba(13,90,171,1) 0%, rgba(39,192,230,1) 100%));
+}

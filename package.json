@@ -9,8 +9,11 @@
   "author": "Jesús Rosas < jesusr93@outlook.es >",
   "license": "ISC",
   "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-clean-css": "^3.0.4",
     "gulp-connect": "^5.0.0",
     "gulp-pug": "^3.3.0",
-    "gulp-sass": "^3.1.0"
+    "gulp-sass": "^3.1.0",
+    "materialize-css": "^0.98.1"
   }
 }

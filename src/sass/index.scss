@@ -1,0 +1,24 @@
+@import 'materialize-css/sass/materialize';
+@import 'components/fonts';
+@import 'components/gradients';
+@import 'components/colors';
+
+
+nav {
+  @extend .indigo, .darken-4;
+}
+#bizgo-app {
+  background: #fff;
+  .valign-wrapper {
+    height: 450px;
+    h2 {
+      margin: 0!important;
+      width: 100%!important;
+      @extend .teal-text;
+      text-shadow: 2px 2px 5px #333;
+    }
+  }
+  .bizgo-title__big {
+    font-size: 8rem;
+  }
+}
