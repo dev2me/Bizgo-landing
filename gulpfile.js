@@ -1,3 +1,5 @@
+
+// Modules for automatization
 var gulp = require('gulp');
 var sass = require('gulp-sass');
 var pug = require('gulp-pug');
@@ -9,6 +11,9 @@ var preset = require('babel-preset-es2015');
 var source = require('vinyl-source-stream');
 var watchify = require("watchify");
 var rename = require('gulp-rename');
+var assets = require('gulp-imagemin');
+
+// task for livereload
 gulp.task('connect', () => {
   connect.server({
     root: 'app',
@@ -16,6 +21,7 @@ gulp.task('connect', () => {
   });
 })
 
+// task for compile files SASS to CSS
 gulp.task('sass', () => {
     gulp.src('./src/sass/index.scss')
         .pipe(sass({includePaths: ["node_modules"]}).on('error', sass.logError))
@@ -27,7 +33,7 @@ gulp.task('sass', () => {
         .pipe(connect.reload());
 });
 
-
+// function for compile javascript
 function compile(watch) {
   var bundle = watchify(browserify("./src/js/index.js", {debug: true}));
 
@@ -53,9 +59,12 @@ function compile(watch) {
   rebundle();
 }
 
+// task for build javascript
 gulp.task('build-scripts', () => {
   return compile(true);
 })
+
+//task for compile views
 gulp.task('views', () => {
   gulp.src('./src/index.pug')
       .pipe(pug())
@@ -63,8 +72,37 @@ gulp.task('views', () => {
       .pipe(connect.reload());
 })
 
-gulp.task('watch', () => {
-  gulp.watch(['./src/**/*.scss', './src/**/*.pug'], ['sass', 'views'])
+gulp.task('assets', () => {
+  gulp.src(['src/assets/*.png', 'src/assets/*.jpg'])
+  .pipe(assets([
+    assets.jpegtran({progressive: true}),
+    assets.optipng({optimizationLevel: 5})
+  ]))
+  .pipe(gulp.dest('./app/assets/'))
 })
 
-gulp.task('default', ['sass', 'views', 'connect', 'build-scripts','watch']);
+// task watching static files
+gulp.task('watch', () => {
+
+  let pathsFiles = ['./src/**/*.scss','./src/**/*.pug'];
+  let tasksFiles = ['sass','views']
+  
+  let pathsAssets = ['src/assets/*.png', 'src/assets/*.jpg'];
+  let taskAssets = ['assets']
+
+  gulp.watch(pathsFiles, tasksFiles);
+  gulp.watch(pathsAssets, taskAssets);
+
+});
+
+// task by default 
+
+let taskFinal = [
+  'connect', 
+  'sass', 
+  'views',
+  'assets',
+  'build-scripts',
+  'watch'
+  ]
+gulp.task('default', taskFinal);
