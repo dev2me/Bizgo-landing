@@ -3,7 +3,12 @@ var sass = require('gulp-sass');
 var pug = require('gulp-pug');
 var connect = require('gulp-connect');
 var cleanCss = require('gulp-clean-css');
-
+var browserify = require('browserify');
+var babel = require('babelify')
+var preset = require('babel-preset-es2015');
+var source = require('vinyl-source-stream');
+var watchify = require("watchify");
+var rename = require('gulp-rename');
 gulp.task('connect', () => {
   connect.server({
     root: 'app',
@@ -23,11 +28,34 @@ gulp.task('sass', () => {
 });
 
 
-/*gulp.task('scripts', () => {
-  gulp.src('./src/js/index.js')
-      .pipe()
-});*/
+function compile(watch) {
+  var bundle = watchify(browserify("./src/js/index.js", {debug: true}));
 
+  function rebundle() {
+    bundle
+    .transform(babel, preset)
+    .bundle()
+    .on('error', (er) => {
+      console.log(er);
+      this.emit('end');
+    })
+    .pipe(source('index.js'))
+    .pipe(rename('build.js'))
+    .pipe(gulp.dest('./app/js'))
+  }
+
+  if(watch) {
+    bundle.on('update', () => {
+      console.log('Building...');
+      rebundle();
+    })
+  }
+  rebundle();
+}
+
+gulp.task('build-scripts', () => {
+  return compile(true);
+})
 gulp.task('views', () => {
   gulp.src('./src/index.pug')
       .pipe(pug())
@@ -39,4 +67,4 @@ gulp.task('watch', () => {
   gulp.watch(['./src/**/*.scss', './src/**/*.pug'], ['sass', 'views'])
 })
 
-gulp.task('default', ['sass', 'views', 'connect','watch']);
+gulp.task('default', ['sass', 'views', 'connect', 'build-scripts','watch']);
