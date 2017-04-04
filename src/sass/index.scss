@@ -3,12 +3,18 @@
 @import 'components/gradients';
 @import 'components/colors';
 
-
-nav {
-  @extend .indigo, .darken-4;
+main {
+  background: #ddd;
 }
-#bizgo-app {
-  background: #fff;
+nav {
+  background: transparent;
+  .img-responsive {
+    max-width: 100%;
+    height: 50px;
+    margin-top: 10px;
+  }
+}
+.cover {
   .valign-wrapper {
     height: 450px;
     h2 {

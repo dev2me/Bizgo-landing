@@ -2,28 +2,13 @@
 html(lang="es")
 head
   meta(charset="UTF-8")
+  meta(name="description" content="")
+  meta(name="viewport" content="width=device-width, initial-scale=1.0")
   link(rel="stylesheet", href="css/index.css")
   title Bizgo app
 body
   main
-    div.navbar-fixed
-      nav
-        div.container
-          div.row
-            div.col.s12
-              div.nav-wrapper
-                a(href="#" class="brand-logo") Bizgo
-                ul.right
-                  li
-                    a(href="#") FAQ
-                  li
-                    a(href="#") Descubre
-    section#bizgo-app.container-fluid
-      div.row
-        div.col.m6
-          div.valign-wrapper
-            h2.valign.lobster.center-align.bizgo-title__big
-              | ¡Descubre
-              | mas! 
+    include views/menu
+    include views/cover
               
   script(src='js/build.js')

@@ -48,6 +48,7 @@ function compile(watch) {
     .pipe(source('index.js'))
     .pipe(rename('build.js'))
     .pipe(gulp.dest('./app/js'))
+    .pipe(connect.reload());
   }
 
   if(watch) {
