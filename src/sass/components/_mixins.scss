@@ -1,0 +1,7 @@
+@mixin triangleUp($left, $right, $bottom, $tipo,$color) {
+    width: 0;
+    height: 0;
+    border-left: $left $tipo transparent;
+    border-right: $right $tipo transparent;
+    border-bottom: $bottom $tipo $color;
+}
